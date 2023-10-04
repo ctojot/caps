@@ -1,25 +1,17 @@
 'use strict';
 
-const hub = require('../hub');
+const eventPool = require('../eventPool.js');
 
-function driverHandler(payload) {
-  
-  let output = 'Package Status' + payload.status;
+function driverPickUp(payload) {
+  console.log('DRIVER: Picked Up' + payload.orderId);
+  eventPool.emit('In-Transit' + payload);
 
-  if (payload.status === 'Picked Up') {
-    output += ' *** Order was Picked Up ***';
-  } else if (payload.status === 'In Transit') {
-    output += ' *** Order in Transit ***';
-  } else if (payload.status === 'Delivered') {
-    output += ' *** Order has been Delivered ***';
-  } else {
-    return 'Error has Occured';
-  }
+  setTimeout (() => {
+    console.log('DRIVER: Delivered Up' + payload.orderId);
+    eventPool.emit('Delivered' + payload);
+  }, 2000);
 }
 
-
-
-
 module.exports = {
-  driverHandler,
+  driverPickUp,
 };

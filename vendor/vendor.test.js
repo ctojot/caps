@@ -1,23 +1,27 @@
 'use strict';
 
-const hub = require('../hub');
-const { simulatePickup } = require('./handler');
+const eventPool = require('../eventPool.js');
+const { handleDelivery, createPickUp } = require('./handler'); 
 
-describe('Vendor Pickup Simulation', () => {
-  beforeEach(() => {
-    jest.clearAllMocks(); // Clear all previous mock calls before each test
+beforeEach(() => {
+  console.log = jest.fn();
+  eventPool.emit = jest.fn();
+});
+
+describe('Testing Vendor Handler', () => {
+  it('Should alert system when there is a package to be picked up', () => {
+    let order = createPickUp('Not Walmart');
+
+    expect(order.store).toBe('Not Walmart');
   });
 
-  it('should emit a pickup event with random order data', () => {
-    const hubEmitSpy = jest.spyOn(hub, 'emit');
+  it('Should notify vendor when package is delivered', () => {
+    let payload = {
+      customer: 'any string',
+    };
 
-    simulatePickup('1-206-flowers');
+    handleDelivery(payload);
 
-    expect(hubEmitSpy).toHaveBeenCalledWith('pickup', expect.objectContaining({
-      store: '1-206-flowers',
-      orderId: expect.any(String),
-      customer: expect.any(String),
-      address: expect.any(String),
-    }));
+    expect(console.log).toHaveBeenCalledWith('Thank you for your order ' + payload.customer);
   });
 });

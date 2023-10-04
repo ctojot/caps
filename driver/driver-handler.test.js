@@ -1,27 +1,45 @@
 'use strict';
 
-const hub = require('../hub');
-const { pickupHandler } = require('./handler');
+const { driverPickUp } = require('./handler'); 
+const eventPool = require('../eventPool');
 
-describe('Driver Pickup Handler', () => {
-  beforeEach(() => {
-    jest.clearAllMocks(); // Clear all previous mock calls before each test
+beforeEach(() => {
+  console.log = jest.fn();
+  eventPool.emit = jest.fn();
+});
+
+let payload = {
+  orderId: 12345,
+};
+
+describe('Testing Driver Handler', () => {
+  it('Should alert system that there is a package', () => {
+    
+    jest.useFakeTimers();
+    driverPickUp(payload);
+    jest.advanceTimersByTime(2000);
+    
+    expect(payload).toBeTruthy();
   });
 
-  it('should log pickup message and emit in-transit event', () => {
-    const payload = {
-      store: '1-206-flowers',
-      orderId: 'test-order-id',
-      customer: 'Test Customer',
-      address: 'Test Address',
-    };
 
-    const consoleLogSpy = jest.spyOn(console, 'log');
-    const hubEmitSpy = jest.spyOn(hub, 'emit');
+  it('Should alert system that package is picked up and in-transit', () => {
+    
+    jest.useFakeTimers();
+    driverPickUp(payload);
+    jest.advanceTimersByTime(2000);
 
-    pickupHandler(payload);
+    expect(payload.orderId).toBe(12345);
+    expect(eventPool.emit).toHaveBeenCalledWith('In-Transit' + payload);
+  });
 
-    expect(consoleLogSpy).toHaveBeenCalledWith(`DRIVER: picked up ${payload.orderId}`);
-    expect(hubEmitSpy).toHaveBeenCalledWith('in-transit', payload);
+  it('Should alert system that package is delivered', () => {
+
+    jest.useFakeTimers();
+    driverPickUp(payload);
+    jest.advanceTimersByTime(2000);
+
+    expect(payload.orderId).toBe(12345);
+    expect(eventPool.emit).toHaveBeenCalledWith('Delivered' + payload);
   });
 });

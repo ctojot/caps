@@ -1,29 +1,21 @@
 'use strict';
 
 const chance = require('chance');
-const hub = require('../hub');
 
-function generateOrder() {
-  const order = new chance();
+function handleDelivery(payload) {
+  console.log('Thank you for your order ' + payload.customer);
+}
+
+function createPickUp(storeName) {
   return {
-    store: order.word(),
-    orderId: order.guid(),
-    customer: order.name(),
-    address: order.address(),
+    store: storeName,
+    orderId: chance.guid,
+    customer: chance.name,
+    address: chance.address,
   };
 }
 
-function orderStatus(payload) {
-	
-}
-
-function simulatePickup(store) {
-  const order = generateOrder();
-  hub.emit('pickup', order);
-}
-
-
 module.exports = {
-  simulatePickup,
-  orderStatus,
+  handleDelivery,
+  createPickUp,
 };

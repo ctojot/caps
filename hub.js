@@ -1,20 +1,21 @@
 'use strict';
 
-const eventEmitter = require('./eventPool');
-const driverHandler = require('./driver/handler');
-const vendorHandler = require('./vendor/handler');
+const eventEmitter = require('./eventPool.js');
 
+function logger(type, payload) {
 
-eventEmitter.on('Package Picked Up', vendorHandler);
-eventEmitter.on('Package in Transit', vendorHandler);
+  const event = {
+    event: type,
+    time: new Date(),
+    payload,
+  };
 
-eventEmitter.on('Package Picked Up', driverHandler);
-eventEmitter.on('Package in Transit', driverHandler);
-eventEmitter.on('Package Delivered', driverHandler);
+  console.log('EVENT', event);
+}
 
-eventEmitter.emit();
-eventEmitter.emit();
+eventEmitter.on('Pickup', (payload) => logger('Pickup', payload));
+eventEmitter.on('In-Transit', (payload) => logger('In-Transit', payload));
+eventEmitter.on('Delivered', (payload) => logger('Delivered', payload));
 
-eventEmitter.emit();
-eventEmitter.emit();
-eventEmitter.emit();
+require('./driver');
+require('./vendor'); // Running all code in barrel file
