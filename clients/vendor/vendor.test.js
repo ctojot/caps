@@ -1,6 +1,6 @@
 'use strict';
 
-const { handleDelivery, createPickUp } = require('./handler.js');
+const { handleDelivery, createPickUp, finishedDelivery } = require('./handler.js');
 const io = require('socket.io-client');
 const socket = io.connect('http://localhost:3002');
 
@@ -24,5 +24,14 @@ describe('Testing Vendor Handler', () => {
     handleDelivery(payload);
 
     expect(console.log).toHaveBeenCalledWith('Thank you for your order ' + payload.customer);
+  });
+
+  it('Should alert to thank driver for delivering package', () => {
+    let payload = {
+      orderId: 12345,
+    };
+
+    finishedDelivery(payload);
+    expect(console.log).toHaveBeenCalledWith('Thank you for your order ' + payload.orderId);
   });
 });
