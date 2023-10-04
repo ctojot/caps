@@ -1,11 +1,12 @@
 'use strict';
 
-const eventPool = require('../eventPool.js');
-const { handleDelivery, createPickUp } = require('./handler'); 
+const { handleDelivery, createPickUp } = require('./handler.js');
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:3002');
 
 beforeEach(() => {
   console.log = jest.fn();
-  eventPool.emit = jest.fn();
+  socket.emit = jest.fn();
 });
 
 describe('Testing Vendor Handler', () => {
