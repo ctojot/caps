@@ -6,6 +6,10 @@ function handleDelivery(payload) {
   console.log('Thank you for your order ' + payload.customer);
 }
 
+function finishedDelivery(payload) {
+  console.log('Thank you for your order ' + payload.orderId);
+}
+
 function createPickUp(storeName) {
   return {
     store: storeName,
@@ -17,5 +21,6 @@ function createPickUp(storeName) {
 
 module.exports = {
   handleDelivery,
+  finishedDelivery,
   createPickUp,
 };

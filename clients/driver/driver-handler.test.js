@@ -1,11 +1,12 @@
 'use strict';
 
-const { driverPickUp } = require('./handler'); 
-const eventPool = require('../eventPool');
+const { driverPickUp } = require('./handler.js'); 
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:3002');
 
 beforeEach(() => {
   console.log = jest.fn();
-  eventPool.emit = jest.fn();
+  socket.emit = jest.fn();
 });
 
 let payload = {
@@ -30,7 +31,7 @@ describe('Testing Driver Handler', () => {
     jest.advanceTimersByTime(2000);
 
     expect(payload.orderId).toBe(12345);
-    expect(eventPool.emit).toHaveBeenCalledWith('In-Transit' + payload);
+    expect(socket.emit).toHaveBeenCalledWith('In-Transit' + payload);
   });
 
   it('Should alert system that package is delivered', () => {
@@ -40,6 +41,6 @@ describe('Testing Driver Handler', () => {
     jest.advanceTimersByTime(2000);
 
     expect(payload.orderId).toBe(12345);
-    expect(eventPool.emit).toHaveBeenCalledWith('Delivered' + payload);
+    expect(socket.emit).toHaveBeenCalledWith('Delivered' + payload);
   });
 });

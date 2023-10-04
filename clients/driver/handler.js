@@ -1,14 +1,16 @@
 'use strict';
 
-const eventPool = require('../eventPool.js');
+const io = require('socket.io-client');
+const capsSocket = io.connect('https://localhost:3002/caps');
+
 
 function driverPickUp(payload) {
   console.log('DRIVER: Picked Up' + payload.orderId);
-  eventPool.emit('In-Transit' + payload);
+  capsSocket.emit('In-Transit' + payload);
 
   setTimeout (() => {
     console.log('DRIVER: Delivered Up' + payload.orderId);
-    eventPool.emit('Delivered' + payload);
+    capsSocket.emit('Delivered' + payload);
   }, 2000);
 }
 
