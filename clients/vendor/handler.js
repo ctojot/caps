@@ -1,6 +1,7 @@
 'use strict';
 
-const chance = require('chance');
+const Chance = require('chance');
+const chance = new Chance();
 
 function handleDelivery(payload) {
   console.log('Thank you for your order ' + payload.customer);
@@ -13,9 +14,9 @@ function finishedDelivery(payload) {
 function createPickUp(storeName) {
   return {
     store: storeName,
-    orderId: chance.guid,
-    customer: chance.name,
-    address: chance.address,
+    orderId: chance.guid(),
+    customer: chance.name(),
+    address: chance.address(),
   };
 }
 
