@@ -2,11 +2,15 @@
 
 LAB: Event Driven Applications
 
-> An event driven application that "distributes" the responsibility for logging to separate modules, using only events to trigger logging based on activity.
+```text
+An event driven application that "distributes" the responsibility for logging to separate modules, using only events to trigger logging based on activity.
+```
 
 ## Installation
 
-> npm install
+```text
+npm install
+```
 
 ## Usage
 
@@ -16,15 +20,15 @@ LAB: Event Driven Applications
 
 ## UML Diagram
 
-![]()
+![CAPS](./capsUML.png)
 
 ## Deployed Link
 
 > Render Deployment
 
-* []()
+* [https://caps-otpz.onrender.com](https://caps-otpz.onrender.com)
 
 ## Pull Request Link
 
  ![Lab 11](https://github.com/ctojot/caps/pull/2)
- ![Lab 12]()
+ ![Lab 12](https://github.com/ctojot/caps/pull/4)
