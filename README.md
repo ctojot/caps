@@ -16,6 +16,9 @@ npm install
 
 ```text
 
+Test using:
+
+npm test
 ```
 
 ## UML Diagram
