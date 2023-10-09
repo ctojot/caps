@@ -20,7 +20,8 @@ npm install
 
 ## UML Diagram
 
-![CAPS](./capsUML.png)
+![Lab 11](./capsUML.png)
+![Lab 12](./capsUML2.png)
 
 ## Deployed Link
 
